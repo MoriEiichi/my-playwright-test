@@ -1,15 +1,17 @@
 {
   "name": "my-playwright-test",
   "version": "1.0.0",
+  "description": "Playwright E2E testing with local Express server",
   "main": "index.js",
-  "scripts": {},
-  "keywords": [],
+  "scripts": {
+    "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'npx playwright test'"
+  },
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.21"
+    "@types/node": "^22.15.21",
+    "start-server-and-test": "^2.0.0"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
