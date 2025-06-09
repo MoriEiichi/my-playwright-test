@@ -14,14 +14,12 @@ jobs:
         with:
           node-version: '20'
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      - run: npx playwright install --with-deps
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
-      - name: Start server
+      - name: Run tests with server
         run: |
-          node server.js & # サーバをバックグラウンドで起動
-          sleep 5          # サーバが起動するのを待つ（適宜調整）
-      
-      - name: Run Playwright tests
-        run: npx playwright test
+          npx start-server-and-test "node server.js" http://localhost:3000 "npx playwright test"
