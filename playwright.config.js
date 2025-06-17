@@ -31,6 +31,9 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* テスト実行時の画面録画設定 */
+    video: 'on', // 全てのテストを録画
   },
 
   /* Configure projects for major browsers */
