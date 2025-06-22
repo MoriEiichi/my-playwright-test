@@ -4,6 +4,7 @@
   "description": "Playwright E2E testing with local Express server",
   "main": "index.js",
   "scripts": {
+    "dev": "node server.js",
     "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'npx playwright test'"
   },
   "author": "",
