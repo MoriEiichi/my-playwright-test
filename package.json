@@ -5,14 +5,30 @@
   "main": "index.js",
   "scripts": {
     "dev": "node server.js",
-    "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'npx playwright test'"
+    "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'npx playwright test'",
+    "lint": "eslint . --ext .js,.ts,.tsx,.jsx,.html",
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,html}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.21",
-    "start-server-and-test": "^2.0.12"
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "start-server-and-test": "^2.0.12",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
