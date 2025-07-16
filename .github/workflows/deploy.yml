@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Vercel CLI
+      - name: Install Vercel 
         run: npm install -g vercel
 
       - name: Deploy to Vercel
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
