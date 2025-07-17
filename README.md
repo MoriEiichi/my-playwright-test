@@ -85,6 +85,3 @@ npm run test:e2e
 
 MIT
 
----
-
-[![GitHub](https://img.shields.io/badge/GitHub-リポジトリを見る-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MoriEiichi/my-playwright-test) # テスト用の変更
