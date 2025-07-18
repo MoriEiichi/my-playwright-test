@@ -34,10 +34,12 @@ export default defineConfig({
     },
   ],
 
-  // サーバーを立ててからテストを開始する場合はこの設定を有効化
-  webServer: {
-  command: 'npm run start',
-  url: 'http://localhost:3000',
-  reuseExistingServer: !process.env.CI,
-  },
+  // GitHub ActionsなどのCI上では start-server-and-test に任せるので無効化
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: 'npm run start',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+      },
 });
