@@ -1,6 +1,9 @@
 {
+    "outputDirectory": "playwright-report",
     "rewrites": [
-      { "source": "/test-report", "destination": "/test-report/index.html" }
+      {
+        "source": "/test-report",
+        "destination": "/test-report/index.html"
+      }
     ]
   }
-  
