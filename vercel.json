@@ -1,0 +1,6 @@
+{
+    "rewrites": [
+      { "source": "/test-report", "destination": "/test-report/index.html" }
+    ]
+  }
+  
