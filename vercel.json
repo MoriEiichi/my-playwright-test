@@ -1,9 +1,9 @@
 {
-    "outputDirectory": "playwright-report",
+    "outputDirectory": "public",
     "rewrites": [
       {
         "source": "/test-report",
         "destination": "/index.html"
       }
     ]
-  }
+}
