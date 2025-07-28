@@ -9,7 +9,7 @@ const reportLinks = files
   .sort((a, b) => b.name.localeCompare(a.name)) // 新しい順
   .map(dirent => {
     const runId = dirent.name;
-    return `<li><a href="./reports/${runId}/index.html">Run #${runId}</a></li>`;
+    return `<li><a href="./${runId}/index.html">Run #${runId}</a></li>`;
   })
   .join('\n');
 
@@ -29,8 +29,4 @@ const html = `
 </html>
 `;
 
-// reports/index.html（従来通り）
-fs.writeFileSync(path.join(reportsDir, 'index.html'), html, 'utf8');
-
-// public/index.html（トップページにも同じ内容を出力）
-fs.writeFileSync(path.join(reportsDir, '..', 'index.html'), html, 'utf8'); 
+fs.writeFileSync(path.join(reportsDir, 'index.html'), html, 'utf8'); 
