@@ -1,48 +1,71 @@
-name: Publish Playwright Reports
+name: Playwright Tests with HTML Report
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  publish-report:
+  test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      
+    - name: Run Playwright tests with server
+      run: npx start-server-and-test "node server.js" http://localhost:3000 "npx playwright test"
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+    - name: Copy Playwright report to public/reports/${GITHUB_RUN_ID}
+      run: |
+        mkdir -p public/reports/${GITHUB_RUN_ID}
+        cp -r playwright-report/* public/reports/${GITHUB_RUN_ID}/
 
-      - name: Install dependencies
-        run: npm ci
+    - name: Generate Playwright reports index.html
+      run: |
+        node public/reports/generate-index.js
 
-      - name: Run Playwright tests
-        run: npm run test
+    - name: Upload Playwright HTML reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-reports
+        path: public/reports/
+        retention-days: 7
+        
+    - name: Display test summary
+      if: always()
+      run: |
+        echo "============================================"
+        echo "🎭 Playwright Test Results Summary"
+        echo "============================================"
+        if [ -f "test-results.json" ]; then
+          echo "📊 Results uploaded as artifact: playwright-report"
+          echo "💾 Download the HTML report from the Actions tab"
+        else
+          echo "⚠️  No test results found"
+        fi
+        echo "============================================"
 
-      - name: Setup Git config
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Switch to reports branch
-        run: |
-          git fetch origin reports || git checkout --orphan reports
-          git switch reports
-
-      - name: Copy reports
-        run: |
-          git rm -rf . > /dev/null 2>&1 || true
-          cp -r public/reports/* ./
-
-      - name: Commit and push
-        run: |
-          git add .
-          git commit -m "chore: update Playwright reports [skip ci]" || echo "No changes"
-          git push origin reports
+    - name: Commit and push Playwright reports
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add public/reports/
+        git commit -m "chore: update Playwright reports [skip ci]" || echo "No changes to commit"
+        git push origin HEAD:${GITHUB_REF#refs/heads/}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
