@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('正しい情報でログインしてダッシュボードに遷移する（ズーム持続）', async ({ browser }) => {
+test('正しい情報でログインしてダッシュボードに遷移する', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
     recordVideo: {
